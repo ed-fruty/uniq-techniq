@@ -1,5 +1,6 @@
 export default {
   mode: 'spa',
+  srcDir: '',
   /*
    ** Headers of the page
    */
@@ -14,7 +15,12 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat:400,700,200|Open+Sans+Condensed:700' },
+      { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.0.6/css/all.css' },
+      { rel: 'stylesheet', href: 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css', crossorigin: 'anonymous' }
+      ]
   },
   /*
    ** Customize the progress-bar color
@@ -23,27 +29,28 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: [
+    '~/assets/sass/now-ui-kit.scss',
+  ],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [
+    { src: '~/plugins/globalDirectives.js', ssr: false },
+    { src: '~/plugins/element-ui.js' },
+    { src: '~/plugins/now-ui-kit' }
+  ],
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: [
+  /* buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module'
-  ],
+  ],*/
   /*
    ** Nuxt.js modules
    */
-  modules: [
-    // Doc: https://bootstrap-vue.js.org
-    'bootstrap-vue/nuxt',
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
-  ],
+  modules: [],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
@@ -53,6 +60,18 @@ export default {
    ** Build configuration
    */
   build: {
+    extractCSS: process.env.NODE_ENV === 'production',
+    babel: {
+      plugins: [
+        [
+          'component',
+          {
+            libraryName: 'element-ui',
+            styleLibraryName: 'theme-chalk'
+          }
+        ]
+      ]
+    },
     /*
      ** You can extend webpack config here
      */
